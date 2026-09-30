@@ -1,0 +1,18 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+.coverage
+# Local VPN credentials, RPC secrets, torrent metadata, and downloaded data.
+.env
+*.env
+*.conf
+*.zip
+*.torrent
+rpc-password
+state.json
+active/
+profiles/
+quarantine/
+snapshots/
+transmission/
+downloads/

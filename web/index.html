@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="guard-token" content="__CSRF_TOKEN__">
+  <title>Torrent Guard · Omarchy</title>
+  <link rel="stylesheet" href="/theme.css">
+  <link rel="stylesheet" href="/app.css">
+  <link rel="stylesheet" href="/actions.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <div class="shell">
+    <header class="topbar">
+      <div class="brand"><div class="mark">◈</div><div><strong>Torrent Guard</strong><span>PRIVATE DOWNLOADS · OMARCHY</span></div></div>
+      <div class="connection" id="connection"><i></i><span>Checking VPN</span></div>
+    </header>
+    <main>
+      <div class="intro"><p class="eyebrow">YOUR SECURE WORKSPACE</p><h1>Download with confidence<span>.</span></h1>
+        <p>Private tunnel. Isolated quarantine. Your approval before anything reaches Downloads.</p></div>
+      <div class="layout">
+        <section class="maincol">
+          <div class="card add-card"><div class="section-title"><div class="section-icon">↓</div><div><h2>New download</h2><p>Paste a magnet link or choose a torrent file.</p></div></div>
+            <form id="magnet-form" class="magnet-row"><input type="url" id="magnet" placeholder="magnet:?xt=urn:btih:…" spellcheck="false" aria-label="Magnet link" required><button type="submit" class="primary">Add torrent <span>↗</span></button></form>
+            <label class="file-drop" id="torrent-drop"> <span>＋</span> <strong>Choose a .torrent file</strong><small>or drop it here · 4 MB maximum</small><input id="torrent-file" type="file" accept=".torrent,application/x-bittorrent"></label>
+          </div>
+          <div class="downloads-head"><div><p class="eyebrow">QUARANTINE</p><h2>Your downloads <span id="download-count">0</span></h2></div><span class="hint">↻ &nbsp; Updates automatically</span></div>
+          <div id="downloads" class="download-list"><div class="empty">No downloads yet. Add a magnet link or torrent file to begin.</div></div>
+        </section>
+        <aside class="sidecol">
+          <div class="card vpn-card"><div class="section-title"><div class="section-icon">◇</div><div><h2>Mullvad WireGuard</h2><p>Only a VPN-protected torrent client can download.</p></div></div>
+            <div class="vpn-state"><span class="dot" id="vpn-dot"></span><div><strong id="vpn-label">Not connected</strong><small id="vpn-description">Import a profile to get started.</small></div></div>
+            <label class="upload-button">＋ Import .zip or .conf<input id="profile-file" type="file" accept=".zip,.conf"></label>
+            <div class="profile-row"><select id="profiles" aria-label="WireGuard profile"><option value="">No profiles imported</option></select><button id="apply" class="secondary" type="button">Connect</button><button id="disconnect" class="secondary disconnect" type="button" disabled>Disconnect</button></div>
+            <p class="fine-print">Connecting requests system authorization to start the VPN containers. Profiles and private keys stay on this machine.</p>
+          </div>
+          <div class="card usage-card"><p class="eyebrow">SYSTEM USAGE</p><p class="usage-note">Live estimates · CPU % of one core · container memory includes cache</p>
+            <div class="usage-line"><span>VPN</span><strong id="usage-vpn">—</strong></div>
+            <div class="usage-line"><span>Torrent client</span><strong id="usage-torrent">—</strong></div>
+            <div class="usage-line"><span>Scanner</span><strong id="usage-scanner">Idle</strong></div>
+            <div class="usage-line"><span>App service</span><strong id="usage-app">—</strong></div>
+            <div class="usage-line"><span>Quarantine</span><strong id="usage-quarantine">—</strong></div>
+            <div class="usage-line"><span>Scan snapshots</span><strong id="usage-snapshots">—</strong></div>
+            <div class="usage-line"><span>Network ↓ / ↑</span><strong id="usage-network">—</strong></div>
+          </div>
+          <div class="card shutdown-card"><p class="eyebrow">SESSION</p><h2>Done for now?</h2><p>Stop the downloads, VPN, and app service. Files in quarantine stay available for your next session.</p><button id="shutdown" class="shutdown-button" type="button">Safe shutdown ↗</button><small id="shutdown-note">Scans must finish before shutdown. Downloads will need manual resume.</small></div>
+          <div class="card flow-card"><p class="eyebrow">HOW IT WORKS</p><div class="flow-step"><b>01</b><div><strong>VPN download</strong><small>Network blocked if the tunnel fails.</small></div></div><div class="flow-step"><b>02</b><div><strong>Virus scan</strong><small>Files stay in quarantine until checked.</small></div></div><div class="flow-step"><b>03</b><div><strong>Manual release</strong><small>You decide what enters Downloads.</small></div></div></div>
+          <p class="disclaimer">A scan with no findings does not guarantee a file is safe. Encrypted or incompletely scanned archives cannot be released.</p>
+        </aside>
+      </div>
+    </main>
+    <footer>TORRENT GUARD <span>·</span> LOCAL ONLY <span>·</span> NO SEEDING AFTER COMPLETION</footer>
+  </div>
+  <div id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

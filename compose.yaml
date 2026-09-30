@@ -1,0 +1,39 @@
+name: omarchy-torrent-guard
+
+services:
+  vpn:
+    image: qmcgaw/gluetun:v3.40.0
+    cap_add: [NET_ADMIN]
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    environment:
+      VPN_SERVICE_PROVIDER: custom
+      VPN_TYPE: wireguard
+      FIREWALL_INPUT_PORTS: "8000,9091"
+      HTTP_CONTROL_SERVER_AUTH_CONFIG_FILEPATH: /gluetun/auth/config.toml
+    volumes:
+      - ${APP_DATA}/active/wg0.conf:/gluetun/wireguard/wg0.conf:ro
+      - ./control-auth.toml:/gluetun/auth/config.toml:ro
+    ports:
+      - 127.0.0.1:19091:9091/tcp
+      - 127.0.0.1:18000:8000/tcp
+    restart: unless-stopped
+
+  transmission:
+    image: lscr.io/linuxserver/transmission:4.0.6
+    network_mode: service:vpn
+    depends_on:
+      vpn:
+        condition: service_healthy
+    environment:
+      PUID: ${APP_UID}
+      PGID: ${APP_GID}
+      UMASK: "077"
+      USER: guard
+      FILE__PASS: /run/secrets/rpc_password
+    volumes:
+      - ${APP_DATA}/rpc-password:/run/secrets/rpc_password:ro
+      - ${APP_DATA}/transmission:/config
+      - ${APP_DATA}/quarantine:/downloads
+    security_opt: [no-new-privileges:true]
+    restart: unless-stopped
